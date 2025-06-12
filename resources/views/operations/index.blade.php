@@ -11,24 +11,25 @@
                 <p class="text-gray-600 dark:text-gray-300">Ainda não realizaste nenhuma operação.</p>
             @else
                 <table class="min-w-full bg-white dark:bg-gray-800 shadow rounded">
-                    <thead>
-                        <tr>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Tipo</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Motivo</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Valor</th>
-                            <th class="px-6 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-300">Data</th>
+                         <thead class="bg-gray-100 dark:bg-gray-700">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-100">Tipo</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-100">Motivo</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-100">Valor</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700 dark:text-gray-100">Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($operations as $operation)
+                        <tr class="{{ $loop->even ? 'bg-gray-50 dark:bg-gray-700' : 'bg-white dark:bg-gray-800' }}">
+                            <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-100">{{ $operation->type }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-100">{{ $operation->reason }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-100">€ {{ number_format($operation->amount, 2, ',', '.') }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-100">{{ $operation->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($operations as $operation)
-                            <tr class="border-b border-gray-200 dark:border-gray-700">
-                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-100">{{ $operation->type }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-100">{{ $operation->reason }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-100">€ {{ number_format($operation->amount, 2, ',', '.') }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-100">{{ $operation->created_at->format('d/m/Y H:i') }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
+                    @endforeach
+                </tbody>
+
                 </table>
             @endif
         </div>

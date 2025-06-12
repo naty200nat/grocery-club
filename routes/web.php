@@ -7,15 +7,6 @@ use App\Http\Controllers\OperationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 
-// 🔹 Test de correo (Mailpit)
-Route::get('/test-mail', function () {
-    Mail::raw('Esto es una prueba de correo desde Laravel 🧪', function ($message) {
-        $message->to('fake@correo.com')
-                ->subject('Correo de prueba');
-    });
-
-    return 'Correo enviado (si Laravel pudo). Revisa Mailpit.';
-});
 
 // 🔹 Página inicial
 Route::get('/', function () {
@@ -25,7 +16,8 @@ Route::get('/', function () {
 // 🔹 Dashboard (requiere login y email verificado)
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
 
 // 🔹 Perfil de usuário
 Route::middleware('auth')->group(function () {
@@ -35,7 +27,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // 🔹 Pagamento de mensalidade + histórico de operações (só usuários autenticados e verificados)
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('/payment', [MembershipController::class, 'showForm'])->name('payment.form');
     Route::post('/payment', [MembershipController::class, 'process'])->name('payment.process');
     Route::get('/operacoes', [OperationController::class, 'index'])->name('operations.index');
@@ -48,3 +40,9 @@ Route::middleware(['auth', 'checkTipo:employee'])->prefix('admin')->group(functi
 
 // 🔹 Rotas de autenticação
 require __DIR__.'/auth.php';
+
+Route::middleware(['auth', 'checkTipo:board'])->prefix('admin')->group(function () {
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+});
+
+
