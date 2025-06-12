@@ -44,15 +44,17 @@ class RegisteredUserController extends Controller
             $photoPath = $request->file('photo')->store('photos', 'public');
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'tipo' => 'pending_member', // o como se defina por defecto
-            'gender' => $request->gender ?? null,
-            'nif' => $request->nif ?? null,
-            'photo' => $request->photo ?? null,
-            'default_delivery_address' => $request->default_delivery_address ?? null,
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'tipo' => 'pending_member',
+        'gender' => $request->gender,
+        'nif' => $request->nif,
+        'photo' => $photoPath,
+        'default_delivery_address' => $request->default_delivery_address,
+        'default_payment_type' => $request->default_payment_type,
+        'default_payment_reference' => $request->default_payment_reference,
         ]);
 
 

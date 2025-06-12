@@ -26,8 +26,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'nif',
         'default_delivery_address',
         'photo',
-        'type', 
+        'tipo', 
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,4 +52,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+    public function operations()
+{
+    return $this->hasMany(Operation::class);
+}
+
 }
